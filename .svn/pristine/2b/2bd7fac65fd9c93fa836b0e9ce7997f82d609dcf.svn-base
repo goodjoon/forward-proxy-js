@@ -1,0 +1,24 @@
+
+/**
+ * Antenna 로의 HTTP Request 를 Proxy 해주는 서버임.
+ */
+
+var httpProxy = require('http-proxy');
+
+var options = {
+	pathnameOnly:true
+	, router : {
+		'/guppy' : 'localhost:8081/guppy'
+	}
+};
+
+var httpProxyServer = httpProxy.createServer(options);
+
+httpProxyServer.proxy.on('start', function() {
+	for (var i = 0 ; i < arguments.length ; i++) {
+		console.log('########## %d #############', i);
+		console.log(arguments[i]);
+	}
+});
+
+httpProxyServer.listen(8080);
